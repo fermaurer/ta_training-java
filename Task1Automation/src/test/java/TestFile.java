@@ -22,6 +22,7 @@ public class TestFile {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
 
+
         openPage = new PastebinOpeningPage(driver);
 
         String codeInput = "Hello from WebDriver";

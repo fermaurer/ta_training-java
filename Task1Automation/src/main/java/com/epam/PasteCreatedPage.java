@@ -16,7 +16,6 @@ public class PasteCreatedPage extends BasePage{
 
     public String getSuccessMessage() {
         String messageText = successMessage.getText();
-        System.out.println(messageText);
         return messageText;
     }
 }
