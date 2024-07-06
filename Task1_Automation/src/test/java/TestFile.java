@@ -7,22 +7,36 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-
+/**
+ * Test class for automated testing of Pastebin functionality.
+ */
 public class TestFile {
 
     private WebDriver driver;
     private PastebinOpeningPage openPage;
     private PasteCreatedPage pasteCreationPage;
 
+    /**
+     * Sets up the environment for automated tests.
+     * Configures the path to the Chrome driver
+     * Maximizes the browser window before each test.
+     */
     @Before
     public void setUp() {
         String projectPath = System.getProperty("user.dir");
-        System.setProperty("webdriver.chrome.driver",projectPath + "/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", projectPath + "/chromedriver.exe");
 
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+    }
 
-
+    /**
+     * Executes the steps to create a new paste
+     * Opens the Pastebin opening page.
+     * Enters code, sets expiration time, and enters name for the paste.
+     * Submits the paste creation form.
+     */
+    public void doPaste() {
         openPage = new PastebinOpeningPage(driver);
 
         String codeInput = "Hello from WebDriver";
@@ -32,12 +46,18 @@ public class TestFile {
         openPage.open();
         openPage.createNewPaste(codeInput, optionTime, name);
         openPage.clickSubmitButton();
-
     }
 
-
+    /**
+     * Test to verify the successful creation of a new paste
+     * Calls {@link #doPaste()} to create a new paste.
+     * Gets the success message of the created paste.
+     * Asserts that the actual success message matches the expected success message.
+     */
     @Test
     public void checkNewPasteTest() {
+
+        doPaste();
 
         pasteCreationPage = new PasteCreatedPage(driver);
 
@@ -47,11 +67,11 @@ public class TestFile {
         Assert.assertEquals(expectedSuccessMessage, actualSuccessMessage);
     }
 
-
+    /**
+     * Closes the webpage.
+     */
     @After
-    public void tearDown() throws InterruptedException {
-        //this Thread.sleep is added so the reviewer can see if the values are filled correctly before closing the driver
-        Thread.sleep(10000);
+    public void tearDown() {
         if (this.driver != null) {
             this.driver.quit();
         }
