@@ -6,10 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-
+/**
+ * Test class for automated testing of Pastebin functionality.
+ */
 public class TestFile {
 
     private WebDriver driver;
@@ -21,6 +21,11 @@ public class TestFile {
 
     private PastebinResultPage inputText;
 
+    /**
+     * Sets up the environment for automated tests.
+     * Configures the path to the Chrome driver
+     * Maximizes the browser window before each test.
+     */
     @Before
     public void setUp() {
         String projectPath = System.getProperty("user.dir");
@@ -28,7 +33,15 @@ public class TestFile {
 
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+    }
 
+    /**
+     * Executes the steps to create a new paste
+     * Opens the Pastebin opening page.
+     * Enters code, highlight style, sets expiration time, and enters name for the paste.
+     * Submits the paste creation form.
+     */
+    public void doPage(){
         openPage = new PastebinOpeningPage(driver);
 
         String codeInput = """
@@ -45,9 +58,16 @@ public class TestFile {
         openPage.clickSubmitButton();
     }
 
-
+    /**
+     * Test to verify the successful creation of a new paste
+     * Calls {@link# doPage()} to create a new paste.
+     * Gets the success message of the created paste.
+     * Asserts that the actual success message matches the expected success message.
+     */
    @Test
     public void checkPasteTitle() {
+        doPage();
+
         newPastePage = new PastebinResultPage(driver);
 
         String actualTitle = newPastePage.getPasteTitle();
@@ -56,8 +76,16 @@ public class TestFile {
         Assert.assertEquals(expectedTitle, actualTitle);
     }
 
+    /**
+     * Test to verify the selection of highlight style.
+     * Calls {@link #doPage()} to create a new paste.
+     * Gets the button text
+     * Asserts that the actual text matches the expected test.
+     */
     @Test
     public void checkHighlighting() {
+        doPage();
+
         highlightingStyle= new PastebinResultPage(driver);
 
         String actualHighlight = highlightingStyle.getHighlighting();
@@ -66,8 +94,16 @@ public class TestFile {
         Assert.assertEquals(expectedHighlight, actualHighlight);
     }
 
+    /**
+     * Test to verify the input text
+     * Calls {@link #doPage} to create a new paste.
+     * Gets the input text.
+     * Asserts that the actual text matches the expected test.
+     */
     @Test
     public void checkInputText() {
+        doPage();
+
         inputText= new PastebinResultPage(driver);
 
         String actualHighlight = inputText.getCodeText();
@@ -76,7 +112,9 @@ public class TestFile {
         Assert.assertEquals(expectedHighlight, actualHighlight);
     }
 
-
+    /**
+     * Closes the webpage.
+     */
    @After
     public void tearDown() throws InterruptedException {
         //this Thread.sleep is added so the reviewer can see if the values are filled correctly before closing the driver
