@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.epam","l":"BasePage"},{"p":"com.epam","l":"Main"},{"p":"com.epam","l":"PastebinOpeningPage"},{"p":"com.epam","l":"PastebinResultPage"},{"p":"<Unnamed>","l":"TestFile"}];updateSearchResults();

@@ -116,9 +116,7 @@ public class TestFile {
      * Closes the webpage.
      */
    @After
-    public void tearDown() throws InterruptedException {
-        //this Thread.sleep is added so the reviewer can see if the values are filled correctly before closing the driver
-        Thread.sleep(3000);
+    public void tearDown() {
         if (this.driver != null) {
             this.driver.quit();
         }
