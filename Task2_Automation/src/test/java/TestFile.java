@@ -47,7 +47,6 @@ public class TestFile {
 
     /**
      * Test to verify the successful creation of a new paste
-     * Calls {@link# doPage()} to create a new paste.
      * Gets the success message of the created paste.
      * Asserts that the actual success message matches the expected success message.
      */
@@ -62,7 +61,6 @@ public class TestFile {
 
     /**
      * Test to verify the selection of highlight style.
-     * Calls {@link#doPage()} to create a new paste.
      * Gets the button text
      * Asserts that the actual text matches the expected test.
      */
@@ -77,7 +75,6 @@ public class TestFile {
 
     /**
      * Test to verify the input text
-     * Calls {@link#doPage} to create a new paste.
      * Gets the input text.
      * Asserts that the actual text matches the expected test.
      */
