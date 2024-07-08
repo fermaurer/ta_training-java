@@ -1,9 +1,6 @@
 import com.epam.*;
 import com.epam.PastebinOpeningPage;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.WebDriver;;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -12,36 +9,26 @@ import org.openqa.selenium.chrome.ChromeDriver;
  */
 public class TestFile {
 
-    private WebDriver driver;
-    private PastebinOpeningPage openPage;
-
-    private PastebinResultPage newPastePage;
-
-    private PastebinResultPage highlightingStyle;
-
-    private PastebinResultPage inputText;
+    private static WebDriver driver;
+    private static PastebinOpeningPage openPage;
 
     /**
      * Sets up the environment for automated tests.
      * Configures the path to the Chrome driver
      * Maximizes the browser window before each test.
-     */
-    @Before
-    public void setUp() {
-        String projectPath = System.getProperty("user.dir");
-        System.setProperty("webdriver.chrome.driver", projectPath + "/chromedriver.exe");
-
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-    }
-
-    /**
      * Executes the steps to create a new paste
      * Opens the Pastebin opening page.
      * Enters code, highlight style, sets expiration time, and enters name for the paste.
      * Submits the paste creation form.
      */
-    public void doPage(){
+    @BeforeClass
+    public static void setUp() {
+        String projectPath = System.getProperty("user.dir");
+        System.setProperty("webdriver.chrome.driver", projectPath + "/chromedriver.exe");
+
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
         openPage = new PastebinOpeningPage(driver);
 
         String codeInput = """
@@ -66,28 +53,22 @@ public class TestFile {
      */
    @Test
     public void checkPasteTitle() {
-        doPage();
+         PastebinResultPage newPastePage = new PastebinResultPage(driver);
+         String actualTitle = newPastePage.getPasteTitle();
+         String expectedTitle = "how to gain dominance among developers";
 
-        newPastePage = new PastebinResultPage(driver);
-
-        String actualTitle = newPastePage.getPasteTitle();
-        String expectedTitle = "how to gain dominance among developers";
-
-        Assert.assertEquals(expectedTitle, actualTitle);
+         Assert.assertEquals(expectedTitle, actualTitle);
     }
 
     /**
      * Test to verify the selection of highlight style.
-     * Calls {@link #doPage()} to create a new paste.
+     * Calls {@link#doPage()} to create a new paste.
      * Gets the button text
      * Asserts that the actual text matches the expected test.
      */
     @Test
     public void checkHighlighting() {
-        doPage();
-
-        highlightingStyle= new PastebinResultPage(driver);
-
+        PastebinResultPage highlightingStyle= new PastebinResultPage(driver);
         String actualHighlight = highlightingStyle.getHighlighting();
         String expectedHighlight = "Bash";
 
@@ -96,16 +77,13 @@ public class TestFile {
 
     /**
      * Test to verify the input text
-     * Calls {@link #doPage} to create a new paste.
+     * Calls {@link#doPage} to create a new paste.
      * Gets the input text.
      * Asserts that the actual text matches the expected test.
      */
     @Test
     public void checkInputText() {
-        doPage();
-
-        inputText= new PastebinResultPage(driver);
-
+        PastebinResultPage inputText= new PastebinResultPage(driver);
         String actualHighlight = inputText.getCodeText();
         String expectedHighlight = "$(git commit-tree HEAD^{tree} -m \"Legacy code\")";
 
@@ -115,10 +93,10 @@ public class TestFile {
     /**
      * Closes the webpage.
      */
-   @After
-    public void tearDown() {
-        if (this.driver != null) {
-            this.driver.quit();
+   @AfterClass
+    public static void tearDown() {
+        if (driver != null) {
+            driver.quit();
         }
 
     }
