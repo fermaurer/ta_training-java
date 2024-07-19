@@ -1,10 +1,10 @@
-package com.epam;
+package com.epam.Pages;
 
+import com.epam.Pages.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.Queue;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Represents the summary page of Google Cloud Calculator.
@@ -50,6 +50,7 @@ public class SummaryPage extends BasePage{
      * @return WebElement representing a specific element on the summary page.
      */
     public WebElement getSomeElement(){
+        wait.until(ExpectedConditions.visibilityOf(instancesNumberLabel));
         return instancesNumberLabel;
     }
 

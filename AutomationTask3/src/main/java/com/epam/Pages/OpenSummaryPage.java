@@ -1,13 +1,10 @@
-package com.epam;
+package com.epam.Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import java.util.Set;
 
 /**
  * Represents Google Open Summary page and provides methods to interact with its elements
@@ -15,8 +12,8 @@ import java.util.Set;
  */
 public class OpenSummaryPage extends BasePage {
 
-    @FindBy(xpath = "//a[contains(@class, 'rP2xkc')]")
-    private WebElement opensummary;
+    @FindBy(xpath = "//a[@class = 'tltOzc MExMre rP2xkc jl2ntd']")
+    private WebElement openSummary;
 
     /**
      * Constructor to initialize OpenSummaryPage with the WebDriver.
@@ -30,5 +27,5 @@ public class OpenSummaryPage extends BasePage {
      * Opens the summary page
      */
     public void openSummary() {
-        wait.until(ExpectedConditions.visibilityOf(opensummary)).click();}
+        wait.until(ExpectedConditions.visibilityOf(openSummary)).click();}
 }

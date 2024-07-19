@@ -1,9 +1,11 @@
-package com.epam;
+package com.epam.Pages;
 
+import com.epam.model.ComputeEngine;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import java.util.List;
 
 /**
@@ -19,29 +21,14 @@ public class ComputeEnginePage extends BasePage {
     @FindBy(xpath = "//span[@id='c24']/following-sibling::div")
     private WebElement operatingSystem;
 
-    @FindBy(xpath = "//li[@data-value='free-debian-centos-coreos-ubuntu-or-byol-bring-your-own-license']")
-    private WebElement operatingSystemOption;
-
-    @FindBy(xpath = "//label[@for='regular']")
-    private WebElement provisioningModel;
-
     @FindBy(xpath = "//span[@id='c28']/following-sibling::div")
     private WebElement machineFamily;
-
-    @FindBy(xpath = "//li[@data-value='general-purpose']")
-    private WebElement selectMachineFamily;
 
     @FindBy(xpath = "//span[@id='c32']/following-sibling::div")
     private WebElement openSeries;
 
-    @FindBy(xpath = "//li[@data-value='n1']")
-    private WebElement selectSeries;
-
     @FindBy(xpath = "//span[@id='c36']/following-sibling::div")
     private WebElement machineType;
-
-    @FindBy(xpath = "//li[@data-value='n1-standard-8']")
-    private WebElement selectMachineType;
 
     @FindBy(xpath = "//button[@aria-label='Add GPUs']")
     private WebElement gpuButton;
@@ -49,29 +36,14 @@ public class ComputeEnginePage extends BasePage {
     @FindBy(css = "div.VfPpkd-aPP78e")
     private List<WebElement> listOfGPU;
 
-    @FindBy(xpath = "//li[@data-value='nvidia-tesla-v100']")
-    private WebElement selectGpuType;
-
     @FindBy(css = "div.VfPpkd-aPP78e")
     private List<WebElement> listNumberOfGPU;
-
-    @FindBy(xpath = "//li[@data-value='1']")
-    private WebElement selectNumberOfGpu;
 
     @FindBy(xpath = "//span[@id='c44']/following-sibling::div")
     private WebElement localSSD;
 
-    @FindBy(xpath = "//ul[@aria-label='Local SSD']/li[3]")
-    private WebElement selectLocalSSD;
-
     @FindBy(xpath = "//span[@id='c48']/following-sibling::div")
     private WebElement region;
-
-    @FindBy(xpath = "//li[@data-value='europe-west4']")
-    private WebElement selectRegion;
-
-    @FindBy(xpath = "//label[@for='1-year']")
-    private WebElement commitedUse;
 
     @FindBy(xpath = "//span[@class='FOBRw-vQzf8d']")
     private WebElement share;
@@ -79,8 +51,12 @@ public class ComputeEnginePage extends BasePage {
     @FindBy(xpath = "//div[contains(@class,'Z7Qi9d') and contains(@class, ' HY0Uh')]")
     private WebElement updateMessage;
 
+    @FindBy(xpath = "//span[@class='close']")
+    private WebElement chatCloseButton;
+
     /**
      * Constructor to initialize ComputeEnginePage with the WebDriver.
+     *
      * @param driver WebDriver instance to be used for interacting with the web elements.
      */
     public ComputeEnginePage(WebDriver driver) {
@@ -88,54 +64,63 @@ public class ComputeEnginePage extends BasePage {
     }
 
     /**
+     * Closes the chat
+     */
+    public void closeChat() {
+        wait.until(ExpectedConditions.visibilityOf(chatCloseButton));
+        chatCloseButton.click();
+    }
+
+    /**
      * Sets the number of instances
-     * @param instances the number of instances to be set.
      */
 
-    public void setNumberOfInstances(int instances) {
+    public void setNumberOfInstances(ComputeEngine testData) {
         wait.until(ExpectedConditions.visibilityOf(numberInstances));
         new Actions(driver).scrollToElement(numberInstances).perform();
         numberInstances.sendKeys(Keys.DELETE);
-        numberInstances.sendKeys(String.valueOf(instances));
+        numberInstances.sendKeys(String.valueOf(testData.getInstances()));
     }
 
     /**
      * Selects the operating system option.
      */
-    public void selectOperatingSystem() {
+    public void selectOperatingSystem(ComputeEngine testData) {
         operatingSystem.click();
-        operatingSystemOption.click();
+        driver.findElement(By.xpath("//li[@data-value='" + testData.getOperativeSystem().getOsLocator() + "']"));
     }
 
     /**
      * Selects the machine family option from the dropdown
      */
-    public void selectMachineFamily() {
+    public void selectMachineFamily(ComputeEngine testData) {
         wait.until(ExpectedConditions.elementToBeClickable(machineFamily)).click();
-        selectMachineFamily.click();
+        driver.findElement(By.xpath("//li[@data-value='" + testData.getMachineFamily().getMfLocator() + "']")).click();
     }
 
     /**
      * Selects the series option from dropdown
      */
-    public void selectSeries() {
+    public void selectSeries(ComputeEngine testData) {
         wait.until(ExpectedConditions.visibilityOf(openSeries)).click();
-        selectSeries.click();
+        driver.findElement(By.xpath("//li[@data-value='" + testData.getSeries().getsLocator() + "']")).click();
     }
 
     /**
      * Selects machine type from the dropdown
      */
-    public void selectMachineType() {
+    public void selectMachineType(ComputeEngine testData) {
         wait.until(ExpectedConditions.visibilityOf(machineType)).click();
-        selectMachineType.click();
+        driver.findElement(By.xpath("//li[@data-value='" + testData.getMachineType().getMtLocator() + "']")).click();
     }
 
     /**
      * Adds GPUs to the configutation
      */
-    public void addGpu() {
-        wait.until(ExpectedConditions.elementToBeClickable(gpuButton)).click();
+    public void addGpu(ComputeEngine testData) {
+        if (testData.getAddGPUs() == true) {
+            wait.until(ExpectedConditions.elementToBeClickable(gpuButton)).click();
+        }
     }
 
     /**
@@ -150,42 +135,43 @@ public class ComputeEnginePage extends BasePage {
     /**
      * Selects the GPU model from dropdown
      */
-    public void selectGPUModel() {
+    public void selectGPUModel(ComputeEngine testData) {
         WebElement GPUType = listOfGPU.get(7);
         wait.until(ExpectedConditions.elementToBeClickable(GPUType)).click();
-        selectGpuType.click();
+        wait.until((ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//li[@data-value='"+testData.getGpuModel().getGpuLocator()+"']"))))).click();
     }
 
     /**
      * Selects number of GPUs from dropdown
      */
-    public void selectNumberOfGPU() {
+    public void selectNumberOfGPU(ComputeEngine testData) {
         WebElement GPUNumber = listNumberOfGPU.get(8);
         wait.until(ExpectedConditions.elementToBeClickable(GPUNumber)).click();
-        wait.until(ExpectedConditions.visibilityOf(selectNumberOfGpu)).click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//li[@data-value='"+ testData.getNumberGPUs().getGpusLocator()+"']")))).click();
     }
 
     /**
      * Selects the local SSD option
      */
-    public void setLocalSSD() {
+    public void setLocalSSD(ComputeEngine testData) {
         wait.until(ExpectedConditions.visibilityOf(localSSD)).click();
-        wait.until(ExpectedConditions.visibilityOf(selectLocalSSD)).click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//ul[@aria-label='Local SSD']/li[" + testData.getLocalSSD().getSDDLocator() + "]")))).click();
     }
 
     /**
      * Selects the region option from dropdown
      */
-    public void selectRegion() {
+    public void selectRegion(ComputeEngine testData) {
         wait.until(ExpectedConditions.elementToBeClickable(region)).click();
-        wait.until(ExpectedConditions.visibilityOf(selectRegion)).click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//li[@data-value='"+ testData.getRegion().getRegionLocator() +"']")))).click();
     }
 
     /**
      * Sets the commited use
      */
-    public void setCommitedUse() {
-        wait.until(ExpectedConditions.elementToBeClickable(commitedUse)).click();
+    public void setCommitedUse(ComputeEngine testData) {
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement
+                (By.xpath("//label[@for='"+ testData.getCommitedUse().getCuLocator()+"']")))).click();
     }
 
     /**

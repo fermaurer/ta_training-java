@@ -1,5 +1,7 @@
-package com.epam;
+package com.epam.Pages;
 
+import com.epam.Pages.BasePage;
+import com.epam.service.PropertyReader;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 
@@ -24,7 +26,8 @@ public class GoogleCloudHomePage extends BasePage {
      * Opens Google Cloud Home page with URL
      */
     public void open() {
-        driver.get(" https://cloud.google.com/");
+        String url = PropertyReader.getProperty("url");
+        driver.get(url);
     }
 
     /**
