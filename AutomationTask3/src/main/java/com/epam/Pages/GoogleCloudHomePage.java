@@ -22,7 +22,7 @@ public class GoogleCloudHomePage extends BasePage {
     }
 
     /**
-     * Opens Google Cloud Home page with URL
+     * Opens Google Cloud Home page with property reader
      */
     public void open() {
         String url = PropertyReader.getProperty("url");
