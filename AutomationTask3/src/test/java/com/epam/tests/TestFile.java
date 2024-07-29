@@ -48,7 +48,7 @@ public class TestFile {
     //Initializes test data with predefined values.
             //Here you can change the instances to more than 50000, like use 60000 and the test
             //will fail and take a sreenshot and store it in the screenshots package
-        testData = new ComputeEngine(4, OperativeSystems.UBUNTU,
+        testData = new ComputeEngine(4, OperativeSystems.DEBIAN,
                 MachineFamily.GENERAL, Series.N1, MachineType.N1_STANDARD8,
                 ProvisioningModel.REGULAR, true, GPUModel.NVIDIA_V100,
                 NumberGPUs.GPU1, LocalSSD.TWO375, Region.NETHERLANDS, CommitedUse.ONE_YEAR);
