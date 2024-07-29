@@ -87,7 +87,7 @@ public class ComputeEnginePage extends BasePage {
      */
     public void selectOperatingSystem(ComputeEngine testData) {
         operatingSystem.click();
-        driver.findElement(By.xpath("//li[@data-value='" + testData.getOperativeSystem().getOsLocator() + "']"));
+        driver.findElement(By.xpath("//li[@data-value='" + testData.getOperativeSystem().getOsLocator() + "']")).click();
     }
 
     /**
